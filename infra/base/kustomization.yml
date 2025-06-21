@@ -11,3 +11,4 @@ resources:
   - user-mongo.yml
   - blog-mongo.yml
   - app.deploy.yml
+  - nats-server.yml

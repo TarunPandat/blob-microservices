@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats-streaming
+  labels:
+    app: nats-streaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats-streaming
+  template:
+    metadata:
+      labels:
+        app: nats-streaming
+    spec:
+      containers:
+      - name: nats-streaming
+        image: nats-streaming:0.25.6
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "400m"
+          limits:
+            memory: "400Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 4222  # Client port
+        - containerPort: 8222  # Monitoring port
+        args:
+        - -p
+        - "4222"
+        - -m
+        - "8222"
+        - -hbi
+        - "5s"
+        - -hbt
+        - "5s"
+        - -hbf
+        - "2"
+        - --store
+        - file
+        - --dir
+        - /data/stan
+        volumeMounts:
+        - name: stan-data
+          mountPath: /data/stan
+      volumes:
+      - name: stan-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats-streaming
+  labels:
+    app: nats-streaming
+spec:
+  selector:
+    app: nats-streaming
+  ports:
+  - name: client
+    port: 4222
+    targetPort: 4222
+  - name: monitoring
+    port: 8222
+    targetPort: 8222
