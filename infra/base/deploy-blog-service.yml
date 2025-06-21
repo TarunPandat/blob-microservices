@@ -13,7 +13,10 @@ spec:
     spec:
       containers:
       - name: blob-app-blog-service
-        image: tarunbhardwajdeveloper/blob-app-blog-service:v0.0.3
+        image: tarunbhardwajdeveloper/blob-app-blog-service:v0.0.4
+        envFrom:
+        - secretRef:
+            name: blog-env
         resources:
           requests:
             memory: "200Mi"

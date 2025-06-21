@@ -24,6 +24,13 @@ secretGenerator:
   - name: env-secret
     envs:
       - .env.prod
+  - name: user-env
+    envs:
+      - .env.user.prod
+
+  - name: blog-env
+    envs:
+      - .env.blog.prod
 
 resources:
   - ../../base

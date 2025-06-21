@@ -13,7 +13,10 @@ spec:
     spec:
       containers:
       - name: blob-app-user-service
-        image: tarunbhardwajdeveloper/blob-app-user-service:v0.0.3
+        image: tarunbhardwajdeveloper/blob-app-user-service:v0.0.4
+        envFrom:
+        - secretRef:
+            name: user-env
         resources:
           requests:
             memory: "200Mi"
