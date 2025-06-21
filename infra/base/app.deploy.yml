@@ -23,3 +23,5 @@ spec:
             cpu: "800m"
         ports:
         - containerPort: 80
+
+# kubectl port-forward svc/blob-app-np 8080:80 -n prod
