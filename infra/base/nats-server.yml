@@ -27,21 +27,21 @@ spec:
         ports:
         - containerPort: 4222  # Client port
         - containerPort: 8222  # Monitoring port
-        args:
-        - -p
-        - "4222"
-        - -m
-        - "8222"
-        - -hbi
-        - "5s"
-        - -hbt
-        - "5s"
-        - -hbf
-        - "2"
-        - --store
-        - file
-        - --dir
-        - /data/stan
+        args: [
+            '-p',
+            '4222',
+            '-m',
+            '8222',
+            '-hbi',
+            '5s',
+            '-hbt',
+            '5s',
+            '-hbf',
+            '2',
+            '-SD',
+            '-cid',
+            'blob-app'
+          ]
         volumeMounts:
         - name: stan-data
           mountPath: /data/stan
@@ -56,6 +56,26 @@ metadata:
   labels:
     app: nats-streaming
 spec:
+  selector:
+    app: nats-streaming
+  ports:
+  - name: client
+    port: 4222
+    targetPort: 4222
+  - name: monitoring
+    port: 8222
+    targetPort: 8222
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats-streaming-np
+  labels:
+    app: nats-streaming
+spec:
+  type: NodePort
   selector:
     app: nats-streaming
   ports:

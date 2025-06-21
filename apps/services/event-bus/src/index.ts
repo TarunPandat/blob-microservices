@@ -2,6 +2,7 @@ import logger from 'jet-logger';
 
 import ENV from '@src/common/constants/ENV';
 import server from './server';
+import nats from 'node-nats-streaming'
 
 
 /******************************************************************************
@@ -25,3 +26,11 @@ server.listen(ENV.Port, (err: any) => {
     logger.info(SERVER_START_MSG);
   }
 });
+
+const stan = nats.connect('blob-app', 'event-bus', {
+  url: 'nats://localhost:4222'
+})
+
+stan.on('connect', () => {
+  logger.info('Publisher connected to Nats server')
+})
