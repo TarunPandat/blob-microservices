@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-db-cred
+  labels:
+    app: mongodb-db-cred
+type: Opaque
+data:
+  username: YWRtaW4=  # admin
+  password: dGFydW4=  # tarun
+
+# base64 value only work here

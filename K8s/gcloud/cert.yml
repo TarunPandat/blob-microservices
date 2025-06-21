@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: urban-aura-mc
+  namespace: dev
+spec:
+  domains:
+    - urbanauras.net

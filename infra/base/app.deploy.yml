@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blob-app
+spec:
+  selector:
+    matchLabels:
+      app: blob-app
+  template:
+    metadata:
+      labels:
+        app: blob-app
+    spec:
+      containers:
+      - name: blob-app
+        image: tarunbhardwajdeveloper/blob-app:v0.0.1
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "400m"
+          limits:
+            memory: "400Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 80

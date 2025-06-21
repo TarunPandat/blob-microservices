@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: urban-aura-ingress
+  namespace: dev
+  labels:
+    name: urban-aura-ingress
+  annotations:
+   kubernetes.io/ingress.global-static-ip-name: urban-aura
+   kubernetes.io/ingress.class: 'gce'
+   networking.gke.io/managed-certificates: urban-aura-mc
+spec:
+  rules:
+  - host: urbanauras.net
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: /*
+        backend:
+          service:
+            name: urban-aura-np-svc
+            port: 
+              number: 80

@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: prod
+  labels:
+    name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.27.0
+    resources:
+      limits:
+        memory: "200Mi"
+        cpu: "800m"
+      requests:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: dev
+  labels:
+    name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.27.0
+    resources:
+      limits:
+        memory: "200Mi"
+        cpu: "800m"
+      requests:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: urban-aura
+  namespace: dev
+  labels:
+    name: urban-aura
+spec:
+  serviceAccountName: pod-inspector
+  containers:
+  - name: urban-aura
+    image: tarunbhardwajdeveloper/urban-aura:v1
+    resources:
+      limits:
+        memory: "200Mi"
+        cpu: "800m"
+      requests:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+

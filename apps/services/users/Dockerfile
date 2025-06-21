@@ -32,6 +32,6 @@ COPY --from=builder /app/config/.env.production ./config/.env.production
 
 ENV NODE_ENV=production
 
-EXPOSE 5000
+EXPOSE 80
 
 CMD ["node", "-r", "./config.js", "./dist"]

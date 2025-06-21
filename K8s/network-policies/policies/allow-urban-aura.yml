@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: all-urban-aura
+spec:
+  podSelector: 
+    matchLabels:
+      app: urban-aura-curl
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+             app: urban-aura

@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev
+
+namePrefix: dev-
+# nameSuffix: -alpha
+
+# commonLabels:
+#   team: development
+#   project: urban-aura
+#   tier: frontend
+#   env: dev
+
+commonAnnotations:
+  team: development
+  maintainer: tarun
+
+replicas:
+  - name: urban-aura
+    count: 1
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: env-secret
+    envs:
+      - .env
+
+resources:
+  - ../../base
+
+patches:
+  - path: patches/v1.0.1.patch.yml
+  - path: patches/v1.0.2.patch.yml

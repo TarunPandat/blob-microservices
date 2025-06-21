@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urban-aura
+  annotations:
+    kubectl.kubernetes.io/change-cause: 'V1.0.2'
+spec:
+  selector:
+    matchLabels:
+      app: urban-aura
+  template:
+    metadata:
+      labels:
+        app: urban-aura
+    spec:
+      containers:
+        - name: urban-aura
+          image: tarunbhardwajdeveloper/urban-aura:v1.0.2
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "400m"
+            limits:
+              memory: "400Mi"
+              cpu: "800m"
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: env-secret

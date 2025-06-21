@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urban-aura
+spec:
+  selector:
+    matchLabels:
+      app: urban-aura
+  template:
+    metadata:
+      labels:
+        app: urban-aura
+    spec:
+      containers:
+      - name: urban-aura
+        image: tarunbhardwajdeveloper/urban-aura:v1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "200Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 80
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: urban-aura-svc
+spec:
+  selector:
+    app: urban-aura
+  ports:
+  - port: 80
+    targetPort: 80

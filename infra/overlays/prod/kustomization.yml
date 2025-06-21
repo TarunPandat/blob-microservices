@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: prod
+
+
+commonAnnotations:
+  team: production
+  maintainer: tarun
+
+replicas:
+  - name: blob-app-user-service
+    count: 1
+  - name: blob-app-blog-service
+    count: 1
+  - name: blob-app-event-bus
+    count: 1
+
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: env-secret
+    envs:
+      - .env.prod
+
+resources:
+  - ../../base

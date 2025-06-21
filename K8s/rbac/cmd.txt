@@ -1,0 +1,28 @@
+openssl version
+
+openssl genrsa -out alice.key 2048
+
+openssl req -new -key alice.key -out alice.csr -subj "/CN=alice/O=admin"
+
+cat alice.csr | base64 | tr -d "\n"
+
+kubectl get csr
+
+kubectl certificate approve alice bob
+
+kubectl get csr alice -o yaml
+
+kubectl get csr alice -o jsonpath='{.status.certificate}' | base64 -d > alice.crt
+
+openssl x590 -text -in 'alice.crt'
+
+cat ~/.kube/config
+
+
+kubectl config view
+
+kubectl config set-context alice --cluster minikube --user alice //add new context for user in config // create new context
+
+
+//set credential for user
+kubectl config set-credentials alice --client-key alice.key --client-certificate alice.crt

@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blog-mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-mongo
+  template:
+    metadata:
+      labels:
+        app: blog-mongo
+    spec:
+      containers:
+        - name: blog-mongo
+          image: mongo:7
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "400m"
+            limits:
+              memory: "400Mi"
+              cpu: "800m"
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "admin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "password"
+            - name: MONGO_INITDB_DATABASE
+              value: "blogDB"  
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: blog-mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-mongo-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017

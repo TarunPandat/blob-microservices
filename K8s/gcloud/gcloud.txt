@@ -1,0 +1,7 @@
+gcloud auth login
+
+gcloud init
+
+gcloud container clusters list 
+
+gcloud container clusters get-credentials demo --region asia-southeast1

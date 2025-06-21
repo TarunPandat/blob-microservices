@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urban-aura
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: urban-aura
+  template:
+    metadata:
+      labels:
+        app: urban-aura
+    spec:
+      containers:
+      - name: urban-aura
+        image: tarunbhardwajdeveloper/urban-aura:v1
+        resources:
+          requests:
+            cpu: 1
+            memory: 1Gi
+          limits:
+            cpu: 1
+            memory: 1Gi
+        ports:
+        - containerPort: 80
+  strategy:
+    type: RollingUpdate

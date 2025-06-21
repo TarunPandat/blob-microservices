@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blob-app-event-bus
+spec:
+  selector:
+    matchLabels:
+      app: blob-app-event-bus
+  template:
+    metadata:
+      labels:
+        app: blob-app-event-bus
+    spec:
+      containers:
+      - name: blob-app-service-event-bus
+        image: tarunbhardwajdeveloper/blob-app-event-bus:v0.0.2
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "400m"
+          limits:
+            memory: "400Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 80

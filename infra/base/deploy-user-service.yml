@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blob-app-user-service
+spec:
+  selector:
+    matchLabels:
+      app: blob-app-user-service
+  template:
+    metadata:
+      labels:
+        app: blob-app-user-service
+    spec:
+      containers:
+      - name: blob-app-user-service
+        image: tarunbhardwajdeveloper/blob-app-user-service:v0.0.2
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "400m"
+          limits:
+            memory: "400Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 80
