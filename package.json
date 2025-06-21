@@ -1,0 +1,32 @@
+{
+  "name": "blob-app",
+  "version": "1.0.0",
+  "description": "blob monorepo",
+  "license": "ISC",
+  "author": "Tarun Bhardwaj",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "web:dev": "cd apps/web && yarn dev",
+    "web:build": "cd apps/web && yarn build",
+    "web:start": "cd apps/web && yarn start",
+    "web:lint": "cd apps/web && yarn lint",
+    "auth:start": "cd apps/services/auth && yarn start",
+    "auth:dev": "cd apps/services/auth && yarn dev",
+    "auth:build": "cd apps/services/auth && yarn build",
+    "auth:build:tsc": "cd apps/services/auth && yarn build:tsc",
+    "auth:test": "cd apps/services/auth && yarn test",
+    "auth:lint": "cd apps/services/auth && yarn lint",
+    "auth:lint:fix": "cd apps/services/auth && yarn lint:fix"
+  },
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "daisyui": "^5.0.43",
+    "mongoose": "^8.16.0"
+  }
+}

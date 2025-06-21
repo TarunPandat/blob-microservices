@@ -1,0 +1,20 @@
+import mongoose, { Schema } from "mongoose"
+
+const BlogSchema = new Schema({
+    title: {
+        type: String,
+        require: [true, 'Title is required']
+    },
+    content: {
+        type: Schema.Types.String,
+        required: [true, 'Content is required']
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        required: [true, 'User id is required']
+    }
+})
+
+const Blog = mongoose.model('Blog', BlogSchema)
+
+export default Blog
