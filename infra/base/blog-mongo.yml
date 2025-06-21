@@ -23,6 +23,7 @@ spec:
       labels:
         app: blog-mongo
     spec:
+      restartPolicy: Always
       containers:
         - name: blog-mongo
           image: mongo:7

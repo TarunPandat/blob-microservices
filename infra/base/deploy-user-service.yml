@@ -11,6 +11,7 @@ spec:
       labels:
         app: blob-app-user-service
     spec:
+      restartPolicy: Always
       containers:
       - name: blob-app-user-service
         image: tarunbhardwajdeveloper/blob-app-user-service:v0.0.4
