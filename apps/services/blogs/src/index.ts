@@ -4,6 +4,8 @@ import './models'
 import ENV from '@src/common/constants/ENV';
 import server from './server';
 import { dbConnection } from './dbConnection'
+import NatsStreaming from './services/nats'
+import { Message } from 'node-nats-streaming'
 
 
 /******************************************************************************
@@ -30,3 +32,12 @@ server.listen(ENV.Port, (err: any) => {
 
 // DB Connection
 dbConnection()
+
+const natsConnection = async () => {
+  const nats = NatsStreaming.getInstance();
+  await nats.connect();
+
+}
+
+
+natsConnection()

@@ -13,9 +13,9 @@ export const dbConnection = () => {
         }).then(() => {
             logger.info('DB Connected!')
         }).catch(e => {
-            logger.err('DB Error: ', e)
+            logger.err('DB Error: '+ e)
         })
     } catch (error) {
-        logger.err('DB Error: ', error)
+        logger.err('DB Error: '+ error)
     }
 }
