@@ -4,8 +4,9 @@ import './models'
 import ENV from '@src/common/constants/ENV';
 import server from './server';
 import { dbConnection } from './dbConnection'
-import NatsStreaming from './services/nats'
 import { Message } from 'node-nats-streaming'
+import { natsWrapper } from './services/nats/NatsWrapper'
+import EventSendListener from './services/nats/Listeners/EventSendListener'
 
 
 /******************************************************************************
@@ -21,7 +22,22 @@ const SERVER_START_MSG = (
                                   Run
 ******************************************************************************/
 
-// Start the server
+
+
+// DB Connection
+dbConnection()
+
+const natsConnection = async (callback: () => void) => {
+  try {
+    await natsWrapper.connect('blob-app', process.env.NATS_CLIENT_ID || 'blog-service', 'nats://localhost:4222')
+    callback()
+  } catch (error) {
+    logger.err(`Nats not able to connect: ${error}`)
+  }
+}
+
+natsConnection(() => {
+  // Start the server
 server.listen(ENV.Port, (err: any) => {
   if (!!err) {
     logger.err(err.message);
@@ -29,15 +45,6 @@ server.listen(ENV.Port, (err: any) => {
     logger.info(SERVER_START_MSG);
   }
 });
+new EventSendListener(natsWrapper.client).listen()
+})
 
-// DB Connection
-dbConnection()
-
-const natsConnection = async () => {
-  const nats = NatsStreaming.getInstance();
-  await nats.connect();
-
-}
-
-
-natsConnection()
