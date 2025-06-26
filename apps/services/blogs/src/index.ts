@@ -7,6 +7,7 @@ import { dbConnection } from './dbConnection'
 import { Message } from 'node-nats-streaming'
 import { natsWrapper } from './services/nats/NatsWrapper'
 import EventSendListener from './services/nats/Listeners/EventSendListener'
+import UserUpdateListener from './services/nats/Listeners/UserUpdate.listerner'
 
 
 /******************************************************************************
@@ -38,13 +39,14 @@ const natsConnection = async (callback: () => void) => {
 
 natsConnection(() => {
   // Start the server
-server.listen(ENV.Port, (err: any) => {
-  if (!!err) {
-    logger.err(err.message);
-  } else {
-    logger.info(SERVER_START_MSG);
-  }
-});
-new EventSendListener(natsWrapper.client).listen()
+  server.listen(ENV.Port, (err: any) => {
+    if (!!err) {
+      logger.err(err.message);
+    } else {
+      logger.info(SERVER_START_MSG);
+    }
+  });
+  new EventSendListener(natsWrapper.client).listen()
+  new UserUpdateListener(natsWrapper.client).listen()
 })
 

@@ -9,11 +9,16 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: ['Password is required'],
+  },
+  username: {
+    type: String,
+    required: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  versionKey: '__v'
 })
 
-const Users = mongoose.model('User', UserSchema)
+const Users = mongoose.models.User || mongoose.model('User', UserSchema);
 
 export default Users

@@ -1,5 +1,6 @@
 import logger from "jet-logger"
 import mongoose from "mongoose"
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 
 export const dbConnection = () => {
     const DB_USER = process.env.DB_USER
@@ -11,6 +12,7 @@ export const dbConnection = () => {
         mongoose.connect(`mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`, {
 
         }).then(() => {
+            // mongoose.plugin(updateIfCurrentPlugin)
             logger.info('DB Connected!')
         }).catch(e => {
             logger.err('DB Error: '+ e)

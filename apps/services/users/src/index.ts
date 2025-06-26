@@ -4,6 +4,7 @@ import './models'
 import ENV from '@src/common/constants/ENV';
 import server from './server';
 import { dbConnection } from './dbConnection'
+import { natsWrapper } from './services/nats/NatsWrapper'
 
 
 /******************************************************************************
@@ -19,14 +20,28 @@ const SERVER_START_MSG = (
                                   Run
 ******************************************************************************/
 
-// Start the server
-server.listen(ENV.Port, (err: any) => {
+
+
+// DB Connection
+dbConnection()
+
+
+const natsConnection = async (callback: () => void) => {
+  try {
+    await natsWrapper.connect('blob-app', 'user-service', 'nats://localhost:4222')
+    callback()
+  } catch (error) {
+    logger.err(`Nats not able to connect: ${error}`)
+  }
+}
+
+natsConnection(() => {
+  // Start the server
+  server.listen(ENV.Port, (err: any) => {
   if (!!err) {
     logger.err(err.message);
   } else {
     logger.info(SERVER_START_MSG);
   }
 });
-
-// DB Connection
-dbConnection()
+})

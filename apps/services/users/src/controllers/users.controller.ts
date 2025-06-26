@@ -1,5 +1,7 @@
 import HttpStatusCodes from '@src/common/constants/HttpStatusCodes'
 import { Users } from '@src/models'
+import { natsWrapper } from '@src/services/nats/NatsWrapper'
+import UserUpdatePublisher from '@src/services/nats/Publishers/UserUpdate.publisher'
 import {Request, Response} from 'express'
 
 export const createUser = async (req: Request, res: Response) => {
@@ -103,5 +105,29 @@ export const getUserById = async (req: Request, res: Response) => {
       error: true,
       errorData: error
     })
+  }
+}
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params
+    const data = req.body
+    console.log('====================================');
+    console.log(data, id);
+    console.log('====================================');
+    const userFound = await Users.findById(id)
+    if(!userFound) {
+      res.status(HttpStatusCodes.NOT_FOUND).json({error: true, msg: 'User not found'})
+    }
+    else {
+      userFound.username = data?.username
+      userFound.markModified('username')
+      await userFound.save()
+      //@ts-ignore
+      await new UserUpdatePublisher(natsWrapper.client).publish({username: userFound.username, id: userFound._id, __v: userFound.__v})
+      res.status(HttpStatusCodes.OK).json({error: false, userFound})
+    }
+  } catch (error) {
+      res.status(HttpStatusCodes.BAD_REQUEST).json({error: true, errorData: error})
   }
 }

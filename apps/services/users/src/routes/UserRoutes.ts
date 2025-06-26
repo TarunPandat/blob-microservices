@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import HttpStatusCodes from "@src/common/constants/HttpStatusCodes"
-import { createUser, getUserById, loginUser } from "@src/controllers/users.controller"
+import { createUser, getUserById, loginUser, updateUser } from "@src/controllers/users.controller"
 import { Router, Request, Response } from "express"
 
 
@@ -18,5 +18,7 @@ router.post('/user', createUser)
 router.post('/login', loginUser)
 
 router.get('/:id', getUserById)
+
+router.patch('/:id', updateUser)
 
 export default router

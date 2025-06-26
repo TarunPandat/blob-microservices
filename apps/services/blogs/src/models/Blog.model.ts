@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose"
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current'
 
 const BlogSchema = new Schema({
     title: {
@@ -11,9 +12,14 @@ const BlogSchema = new Schema({
     },
     user: {
         type: Schema.Types.ObjectId,
-        required: [true, 'User id is required']
+        required: [true, 'User id is required'],
+        ref: 'User'
     }
+}, {
+    versionKey: "__v"
 })
+
+BlogSchema.plugin(updateIfCurrentPlugin)
 
 const Blog = mongoose.model('Blog', BlogSchema)
 
